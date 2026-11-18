@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+/* Soft blush base like the reference template; maroon accent from the invitation card. */
+:root {
+  --ivory: #f3ece7;
+  --deep: #e9dfd8;
+  --gold: #b08a4a;
+  --ink: #2a2321;
+  --sea: #8a7468;
+  --butter: #e7d3c4;
+  --brush: #6b1a27;
+}
+
+@theme inline {
+  --font-sans: var(--font-dm);
+}
+
+html {
+  background: var(--ivory);
+}
+body {
+  color: var(--ink);
+  font-family: var(--font-dm), system-ui, sans-serif;
+  background: var(--ivory);
+}
+
+.fd {
+  font-family: var(--font-corm), Georgia, serif;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brush);
+  outline-offset: 3px;
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(8px);
+  }
+}
+.cue {
+  animation: drift 1.4s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- reference-style textures (our own art) ---- */
+:root {
+  --gold: #c9a45c;
+  --sage: #6f9a7c;
+}
+
+/* faint botanical line-art wallpaper */
+.botanical {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360' fill='none' stroke='%237d8a6c' stroke-opacity='.22' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M40 350 C70 250 110 160 200 40'/%3E%3Cpath d='M80 260 C60 250 50 232 52 212 C74 214 86 232 80 260Z'/%3E%3Cpath d='M104 206 C128 196 146 202 154 222 C130 232 110 226 104 206Z'/%3E%3Cpath d='M130 150 C110 138 106 118 118 100 C140 112 142 132 130 150Z'/%3E%3Cpath d='M160 108 C184 100 200 108 206 126 C184 134 166 128 160 108Z'/%3E%3Cpath d='M300 330 C290 260 300 190 330 120'/%3E%3Cpath d='M296 270 C276 266 266 252 268 236 C288 238 298 252 296 270Z'/%3E%3Cpath d='M304 214 C324 208 338 216 340 232 C320 238 308 230 304 214Z'/%3E%3Ccircle cx='215' cy='34' r='6'/%3E%3Ccircle cx='334' cy='112' r='5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 360px;
+}
+
+/* torn paper: the edge is distorted on a background layer so text stays crisp */
+@layer components {
+  .paper {
+    position: relative;
+  }
+}
+.paper {
+  isolation: isolate;
+}
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: #eee6d4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .25 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  filter: url(#torn);
+  box-shadow: 0 8px 18px rgba(60, 45, 25, 0.12);
+}
+
+.seal {
+  display: inline-grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  color: rgba(255, 228, 205, 0.92);
+  background: radial-gradient(circle at 32% 28%, #e8b08a 0%, #c0774a 45%, #8f4b2b 100%);
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 220, 190, 0.35),
+    inset 0 -3px 6px rgba(80, 30, 10, 0.4),
+    0 6px 10px rgba(60, 30, 10, 0.25);
+  filter: url(#wax);
+}
+
+.polaroid {
+  background: #fff;
+  padding: 10px 10px 40px;
+  box-shadow: 0 12px 26px rgba(50, 35, 20, 0.16);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* ---- v3: richer botanical paper, directional reveals, wax stamp ---- */
+.botanical {
+  background-image: url("/art/botanical.svg");
+  background-size: 900px;
+  background-position: center top;
+}
+.reveal {
+  transform: translate(var(--rx, 0), var(--ry, 28px)) rotate(var(--rr, 0deg));
+}
+.stamp {
+  opacity: 0;
+  transform: scale(1.9) rotate(-22deg);
+}
+.stamp.in {
+  animation: stamp 0.75s cubic-bezier(0.2, 0.9, 0.3, 1.25) forwards;
+}
+@keyframes stamp {
+  60% {
+    opacity: 1;
+    transform: scale(0.92) rotate(3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+.card-tilt {
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 28px;
+  padding: 16px 16px 20px;
+  box-shadow: 0 18px 36px rgba(60, 45, 25, 0.16);
+  backdrop-filter: blur(2px);
+}
+.script {
+  font-family: var(--font-script), "Brush Script MT", cursive;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- v4: richer reveal (slide, tilt, scale, blur, flip) ---- */
+.reveal {
+  opacity: 0;
+  transform: perspective(900px) translate(var(--rx, 0), var(--ry, 28px)) rotate(var(--rr, 0deg)) rotateX(var(--rf, 0deg)) scale(var(--rs, 1));
+  filter: blur(var(--rb, 0px));
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.9s ease;
+}
+
+/* hero entrance on load */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(46px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes hero-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.hero-rise {
+  opacity: 0;
+  animation: hero-rise 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.hero-line {
+  transform-origin: left;
+  animation: hero-line 1.2s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.star-pop {
+  opacity: 0;
+  transform: scale(0) rotate(-90deg);
+}
+.star-pop.in {
+  animation: star-pop 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.3) forwards;
+}
+@keyframes star-pop {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise,
+  .hero-line,
+  .star-pop {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .deal-card {
+    opacity: 0;
+  }
+}
+
+/* the footer couple gently sways, like they are dancing */
+@keyframes couple-sway {
+  from {
+    transform: rotate(-1.6deg) translateY(0);
+  }
+  to {
+    transform: rotate(1.6deg) translateY(-8px);
+  }
+}
+.couple-sway {
+  transform-origin: 50% 100%;
+  animation: couple-sway 3.6s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .couple-sway {
+    animation: none;
+  }
+}
