@@ -12,9 +12,17 @@ export default function Hero() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    media.current?.play().catch(() => {
-      /* autoplay can be blocked; the poster frame stays */
-    });
+    // Pick the film after the page is up: a small file on phones, none on data saver.
+    const v = media.current;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (v && !conn?.saveData) {
+      const small = window.matchMedia("(max-width: 767px)").matches;
+      const webm = v.canPlayType('video/webm; codecs="vp9"') !== "";
+      v.src = `/video/reel${small ? "-sm" : ""}.${webm ? "webm" : "mp4"}`;
+      v.play().catch(() => {
+        /* autoplay can be blocked; the poster frame stays */
+      });
+    }
     const el = root.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
@@ -35,12 +43,9 @@ export default function Hero() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="none"
         aria-label="Vaishak and Nisha, a short film from their pre-wedding shoot"
-      >
-        <source src="/video/reel.webm" type="video/webm" />
-        <source src="/video/reel.mp4" type="video/mp4" />
-      </video>
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
       <div ref={text} className="absolute inset-x-0 bottom-0 px-5 pb-10 md:px-12 md:pb-14">
         <div className="hero-rise flex items-center gap-4 text-white/90" style={{ animationDelay: "0.3s" }}>
