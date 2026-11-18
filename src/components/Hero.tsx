@@ -12,13 +12,13 @@ export default function Hero() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    // Pick the film after the page is up: a small file on phones, none on data saver.
+    // Pick the film after the page is up: a 960 px file on phones, the full one elsewhere, none on data saver.
     const v = media.current;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     if (v && !conn?.saveData) {
       const small = window.matchMedia("(max-width: 767px)").matches;
-      const webm = v.canPlayType('video/webm; codecs="vp9"') !== "";
-      v.src = `/video/reel${small ? "-sm" : ""}.${webm ? "webm" : "mp4"}`;
+      const webm = !small && v.canPlayType('video/webm; codecs="vp9"') !== ""; // phones use MP4: smaller here and hardware-decoded
+      v.src = `/video/reel${small ? "-md" : ""}.${webm ? "webm" : "mp4"}`;
       v.play().catch(() => {
         /* autoplay can be blocked; the poster frame stays */
       });
@@ -35,9 +35,11 @@ export default function Hero() {
 
   return (
     <section ref={root} className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-black">
+      {/* phones: a soft blurred copy of the scene behind a sharp, full-width film band */}
+      <div aria-hidden className="absolute inset-0 scale-125 bg-cover bg-center opacity-60 blur-2xl md:hidden" style={{ backgroundImage: "url(/video/reel-poster.jpg)" }} />
       <video
         ref={media}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute left-0 top-[15svh] aspect-video w-full object-cover [mask-image:linear-gradient(to_bottom,transparent,#000_14%,#000_86%,transparent)] md:inset-0 md:top-0 md:aspect-auto md:h-full md:[mask-image:none]"
         poster="/video/reel-poster.jpg"
         autoPlay
         muted
