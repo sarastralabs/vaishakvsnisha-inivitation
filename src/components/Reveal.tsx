@@ -22,7 +22,7 @@ export default function Reveal({
   delay?: number;
   from?: From;
   rotate?: number;
-  /** Slide distance in px on wide screens (phones use at most 60). */
+  /** Slide distance in px (phones use at most 110, wide screens up to 400). */
   dist?: number;
   scale?: number;
   blur?: number;
@@ -38,7 +38,7 @@ export default function Reveal({
       return;
     }
     const wide = window.innerWidth >= 768;
-    const d = Math.min(dist ?? 60, wide ? 400 : 60);
+    const d = Math.min(dist ?? 60, wide ? 400 : 110);
     el.style.setProperty("--rx", from === "left" ? `${-d}px` : from === "right" ? `${d}px` : "0px");
     el.style.setProperty("--ry", from === "up" ? `${dist ?? 34}px` : from === "flip" ? "18px" : "0px");
     el.style.setProperty("--rr", `${rotate}deg`);

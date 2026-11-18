@@ -69,7 +69,7 @@ export default function Page() {
                 return (
                   <div key={s.q} className={`relative flex flex-col items-center md:items-start ${left ? "md:flex-row" : "md:flex-row-reverse"}`}>
                     <Reveal from={left ? "left" : "right"} dist={150} rotate={left ? -6 : 6} className="relative z-10 w-[84%] max-w-[340px] md:w-[360px]">
-                      <Parallax amount={14}>
+                      <Parallax amount={30} rotate={left ? 3 : -3}>
                         <div className="card-tilt" style={{ transform: `rotate(${left ? -3 : 3}deg)` }}>
                           <div className="flex items-center justify-between pb-3 text-base text-[var(--ink)]/70">
                             <span>Chapter</span>
