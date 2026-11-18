@@ -27,15 +27,15 @@ export const metadata: Metadata = {
     title,
     description,
     type: "website",
-    images: [{ url: "/video/reel-poster.jpg", width: 1280, height: 720, alt: "Vaishak and Nisha by the sea" }],
+    images: [{ url: "/video/film-poster.jpg", width: 1280, height: 720, alt: "Vaishak and Nisha by the sea" }],
   },
-  twitter: { card: "summary_large_image", title, description, images: ["/video/reel-poster.jpg"] },
+  twitter: { card: "summary_large_image", title, description, images: ["/video/film-poster.jpg"] },
 };
 
 export const viewport: Viewport = { themeColor: "#f3ece7" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  preload("/video/reel-poster.jpg", { as: "image", fetchPriority: "high" });
+  preload("/video/film-poster.jpg", { as: "image", fetchPriority: "high" });
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable} ${script.variable}`}>
       <body>

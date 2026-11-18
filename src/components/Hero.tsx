@@ -8,26 +8,33 @@ import { invite } from "@/data/invite";
 export default function Hero() {
   const root = useRef<HTMLElement>(null);
   const media = useRef<HTMLVideoElement>(null);
+  const ambient = useRef<HTMLVideoElement>(null);
   const text = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    // Pick the film after the page is up: a 960 px file on phones, the full one elsewhere, none on data saver.
+    // Pick the film after the page is up (WebM where supported, else MP4); none on data saver.
     const v = media.current;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     if (v && !conn?.saveData) {
+      const webm = v.canPlayType('video/webm; codecs="vp9"') !== "";
+      // phones get the 960 px film (the band is only ~390 px wide, so it is just as sharp); everything else the full one
       const small = window.matchMedia("(max-width: 767px)").matches;
-      const webm = !small && v.canPlayType('video/webm; codecs="vp9"') !== ""; // phones use MP4: smaller here and hardware-decoded
-      v.src = `/video/reel${small ? "-md" : ""}.${webm ? "webm" : "mp4"}`;
-      v.play().catch(() => {
-        /* autoplay can be blocked; the poster frame stays */
-      });
+      const src = small ? "/video/film-md.mp4" : `/video/film.${webm ? "webm" : "mp4"}`;
+      for (const el of [v, ambient.current]) {
+        if (!el) continue;
+        // the blurred copy needs no detail, so it gets a tiny file
+        el.src = el === v ? src : "/video/film-bg.mp4";
+        el.play().catch(() => {
+          /* autoplay can be blocked; the poster frame stays */
+        });
+      }
     }
     const el = root.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const st = { trigger: el, start: "top top", end: "bottom top", scrub: true };
-      gsap.to(media.current, { yPercent: 14, scale: 1.12, ease: "none", scrollTrigger: st });
+      if (window.matchMedia("(min-width: 768px)").matches) gsap.to(media.current, { yPercent: 14, scale: 1.12, ease: "none", scrollTrigger: st });
       gsap.to(text.current, { yPercent: -28, opacity: 0, ease: "none", scrollTrigger: { ...st, end: "70% top" } });
     }, el);
     return () => ctx.revert();
@@ -35,18 +42,29 @@ export default function Hero() {
 
   return (
     <section ref={root} className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-black">
-      {/* phones: a soft blurred copy of the scene behind a sharp, full-width film band */}
-      <div aria-hidden className="absolute inset-0 scale-125 bg-cover bg-center opacity-60 blur-2xl md:hidden" style={{ backgroundImage: "url(/video/reel-poster.jpg)" }} />
+      {/* phones: a soft blurred still, then a blurred moving copy of the film, fill the screen behind the sharp film */}
+      <div aria-hidden className="absolute inset-0 scale-125 bg-cover bg-center opacity-60 blur-2xl md:hidden" style={{ backgroundImage: "url(/video/film-poster.jpg)" }} />
       <video
-        ref={media}
-        className="absolute left-0 top-[15svh] aspect-video w-full object-cover [mask-image:linear-gradient(to_bottom,transparent,#000_14%,#000_86%,transparent)] md:inset-0 md:top-0 md:aspect-auto md:h-full md:[mask-image:none]"
-        poster="/video/reel-poster.jpg"
+        ref={ambient}
+        aria-hidden
+        tabIndex={-1}
+        className="absolute inset-0 h-full w-full scale-125 object-cover opacity-70 blur-2xl md:hidden"
         autoPlay
         muted
         loop
         playsInline
         preload="none"
-        aria-label="Vaishak and Nisha, a short film from their pre-wedding shoot"
+      />
+      <video
+        ref={media}
+        className="absolute left-0 top-[13svh] aspect-video w-full object-cover [mask-image:linear-gradient(to_bottom,transparent,#000_10%,#000_90%,transparent)] md:inset-0 md:top-0 md:aspect-auto md:h-full md:[mask-image:none]"
+        poster="/video/film-poster.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label="Vaishak and Nisha, their pre-wedding film by the sea"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
       <div ref={text} className="absolute inset-x-0 bottom-0 px-5 pb-10 md:px-12 md:pb-14">
