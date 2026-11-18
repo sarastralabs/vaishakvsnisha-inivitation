@@ -27,12 +27,39 @@ export const invite = {
   dateLabel: "Sunday, 29 November 2026",
   city: "Mahalakshmi Sabhabhavana, Uchila, Udupi",
   // Fill each answer (a), and optionally a date label (date). Empty answers show a soft placeholder.
+  storyIntro: "Sometimes, the most beautiful love stories begin without us even realizing it.",
   story: [
-    { q: "How did we meet?", a: "", date: "" },
-    { q: "What was our first impression?", a: "", date: "" },
-    { q: "When did we know?", a: "", date: "" },
-    { q: "How did the proposal happen?", a: "", date: "" },
+    {
+      q: "How did we meet?",
+      a: "Our story began at the same workplace. During the COVID period, we would often see each other around the office, but little did we know that we were looking at someone who would eventually become such an important part of our lives. At first, we were just two colleagues who barely knew each other.",
+      date: "",
+    },
+    {
+      q: "How did we start talking?",
+      a: "Our first real conversations started through our office internal team chat, where we connected over work-related discussions. Slowly, those professional conversations turned into friendly chats, and a beautiful friendship began to blossom.",
+      date: "",
+    },
+    {
+      q: "Then came Instagram",
+      a: "As time passed, we connected on Instagram, and our conversations became more frequent. What started as simple messages slowly turned into long conversations, endless smiles, and a special bond that neither of us expected. We spent time getting to know each other, sharing our thoughts, dreams, and little moments of everyday life.",
+      date: "",
+    },
+    {
+      q: "When did we know?",
+      a: "After a year of knowing each other, we realized that what we shared was more than just a friendship. Our hearts had found their way to each other, and our journey of pure love began.",
+      date: "",
+    },
+    {
+      q: "Our first meeting",
+      a: "And then came the moment we had been waiting for. Finally seeing each other, beyond office conversations and Instagram messages, made everything feel even more special. It was the beginning of countless memories, beautiful moments, and a journey we knew we wanted to take together.",
+      date: "",
+    },
   ],
+  storyClose: {
+    lead: "Who would have thought that two people who once simply crossed paths at work would one day become each other's favorite person?",
+    line: "From colleagues to friends, from friends to soulmates, this is our story.",
+    last: "A story that started with a simple hello and turned into a forever kind of love.",
+  },
   events: [
     {
       name: "Mehendi",

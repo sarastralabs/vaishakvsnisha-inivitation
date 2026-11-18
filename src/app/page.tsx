@@ -22,8 +22,8 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
   </Reveal>
 );
 
-const storyPhotos = ["post-a-04", "post-b-03", "post-a-15", "post-b-09"];
-const storyIcons = ["heart", "rings", "arch", "heart"] as const;
+const storyPhotos = ["post-a-04", "post-b-03", "post-a-15", "post-b-09", "post-a-10"];
+const storyIcons = ["heart", "rings", "arch", "heart", "rings"] as const;
 
 const mapHref = (e: EventItem) =>
   e.mapUrl || (e.mapQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.mapQuery)}` : null);
@@ -55,10 +55,13 @@ export default function Page() {
             <Reveal className="text-center">
               <div className="paper mx-auto inline-block px-14 py-8 md:px-20">
                 <Eyebrow>Our story</Eyebrow>
-                <h2 id="story-h" className="fd mt-2 text-4xl uppercase tracking-wide md:text-5xl">
-                  How it started
+                <h2 id="story-h" className="fd mt-2 text-3xl uppercase tracking-wide md:text-5xl">
+                  A story written in the stars
                 </h2>
               </div>
+            </Reveal>
+            <Reveal delay={0.1} className="text-center">
+              <p className="fd mx-auto mt-8 max-w-xl text-2xl italic leading-snug text-[var(--ink)]/80 md:text-3xl">{invite.storyIntro}</p>
             </Reveal>
             <div className="mt-20 grid gap-28 md:gap-44">
               {invite.story.map((s, i) => {
@@ -100,6 +103,15 @@ export default function Page() {
                 );
               })}
             </div>
+            <Reveal className="mt-28 text-center md:mt-40">
+              <div className="paper mx-auto max-w-2xl px-8 pb-12 pt-14 md:px-14">
+                <StampSeal icon="heart" className="absolute -top-7 left-1/2 -translate-x-1/2" />
+                <p className="text-[var(--ink)]/80">{invite.storyClose.lead}</p>
+                <div className="mx-auto my-5 h-px w-16 bg-[var(--gold)]/60" />
+                <p className="fd text-3xl leading-tight text-[#7d1626] md:text-4xl">{invite.storyClose.line}</p>
+                <p className="mt-4 italic text-[var(--ink)]/70">{invite.storyClose.last}</p>
+              </div>
+            </Reveal>
           </div>
         </section>
 

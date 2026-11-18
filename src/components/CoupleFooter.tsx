@@ -52,7 +52,7 @@ export default function CoupleFooter() {
   }, []);
 
   return (
-    <footer ref={root} className="relative isolate px-5 pb-16 pt-[64vw] text-center text-white [clip-path:inset(-400px_0_0_0)] md:px-12 md:pb-20 md:pt-28 md:text-left">
+    <footer ref={root} className="relative isolate px-5 pb-16 pt-[70vw] text-center text-white [clip-path:inset(-400px_0_0_0)] md:px-12 md:pb-20 md:pt-28 md:text-left">
       {/* background photo, clipped inside the footer */}
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <div ref={bg} className="absolute inset-0">
@@ -87,7 +87,7 @@ export default function CoupleFooter() {
       {/* the couple: head above the footer edge, body inside it, on the right */}
       <div
         ref={couple}
-        className="pointer-events-none absolute -top-[14vw] right-[-2vw] z-10 h-[74vw] w-[52vw] md:-top-[150px] md:bottom-0 md:right-[3%] md:h-auto md:w-[44vw] md:max-w-[620px]"
+        className="pointer-events-none absolute left-0 right-0 mx-auto -top-[16vw] z-10 h-[82vw] w-[57vw] md:left-auto md:right-[3%] md:-top-[150px] md:bottom-0 md:mx-0 md:h-auto md:w-[44vw] md:max-w-[620px]"
       >
         <div className="couple-sway absolute inset-0">
           <Image
@@ -95,7 +95,7 @@ export default function CoupleFooter() {
             unoptimized
             alt="Illustration of Vaishak and Nisha dancing"
             fill
-            sizes="(min-width:768px) 44vw, 52vw"
+            sizes="(min-width:768px) 44vw, 57vw"
             className="object-contain object-top drop-shadow-[0_18px_28px_rgba(0,0,0,.45)] md:object-bottom"
           />
         </div>
