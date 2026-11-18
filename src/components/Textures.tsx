@@ -42,11 +42,27 @@ const icons = {
   ),
 };
 
-export function Seal({ icon = "heart", className = "" }: { icon?: keyof typeof icons; className?: string }) {
+/** Gold line icons (made in ChatGPT) shown on red wax seals for the three celebrations. */
+export const eventIcons = {
+  mehendi: "/icons/event-mehendi.png",
+  kalash: "/icons/event-marriage.png",
+  cheers: "/icons/event-reception.png",
+} as const;
+export type SealIcon = keyof typeof icons | keyof typeof eventIcons;
+
+export function Seal({ icon = "heart", className = "" }: { icon?: SealIcon; className?: string }) {
+  if (icon in eventIcons) {
+    return (
+      <span className={`seal seal-red ${className}`} aria-hidden>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={eventIcons[icon as keyof typeof eventIcons]} alt="" className="h-11 w-11 object-contain" />
+      </span>
+    );
+  }
   return (
     <span className={`seal ${className}`} aria-hidden>
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        {icons[icon]}
+        {icons[icon as keyof typeof icons]}
       </svg>
     </span>
   );

@@ -14,7 +14,7 @@ export type EventItem = {
   /** Short extra line shown under the time. */
   note?: string;
   photo: string;
-  icon: "heart" | "rings" | "om" | "arch";
+  icon: "heart" | "rings" | "om" | "arch" | "mehendi" | "kalash" | "cheers";
 };
 
 export const invite = {
@@ -45,7 +45,7 @@ export const invite = {
       mapUrl: "https://maps.app.goo.gl/8gFkqABzw3m6SUuj6",
       start: "2026-11-27T18:00:00+05:30",
       photo: "post-b-10",
-      icon: "rings",
+      icon: "mehendi",
     },
     {
       name: "The Marriage",
@@ -58,7 +58,7 @@ export const invite = {
       mapUrl: "https://maps.app.goo.gl/rAGEwJrSnaCBVyTd8",
       start: "2026-11-29T12:05:00+05:30",
       photo: "post-a-07",
-      icon: "om",
+      icon: "kalash",
     },
     {
       name: "Reception",
@@ -70,7 +70,7 @@ export const invite = {
       mapUrl: "https://maps.app.goo.gl/XDVWFY88KEjW3fuE8",
       start: "2026-12-02T11:30:00+05:30",
       photo: "post-b-08",
-      icon: "arch",
+      icon: "cheers",
     },
   ] as EventItem[],
   // From "Dress code for Vaishak-Nisha wedding.pdf"
@@ -78,6 +78,7 @@ export const invite = {
   dress: [
     {
       event: "Mehendi",
+      icon: "kurta" as const,
       when: "27 November · 6:00 PM",
       rule: "Kurta, any colour",
       text: "Please wear a kurta in the style shown, in any colour.",
@@ -86,6 +87,7 @@ export const invite = {
     },
     {
       event: "The Marriage",
+      icon: "ensemble" as const,
       when: "29 November",
       rule: "Traditional, any colour",
       text: "Any traditional outfit in any colour. A few ideas are shown.",
@@ -94,6 +96,7 @@ export const invite = {
     },
     {
       event: "Reception",
+      icon: "blazer" as const,
       when: "2 December",
       rule: "Blazer, any colour",
       text: "A blazer in any colour. Two examples are shown.",

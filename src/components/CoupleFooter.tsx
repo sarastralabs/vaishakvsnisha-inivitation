@@ -16,6 +16,30 @@ export default function CoupleFooter() {
   const bg = useRef<HTMLDivElement>(null);
   const couple = useRef<HTMLDivElement>(null);
 
+  // Warm the cache: fetch the illustration after the page has loaded so it is ready before you reach the footer.
+  useEffect(() => {
+    const warm = () => {
+      const img = new window.Image();
+      img.src = "/art/couple.webp";
+      img.decode?.().catch(() => {
+        /* decode is optional */
+      });
+    };
+    if (document.readyState === "complete") {
+      const t = setTimeout(warm, 1200);
+      return () => clearTimeout(t);
+    }
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const onLoad = () => {
+      t = setTimeout(warm, 1200);
+    };
+    window.addEventListener("load", onLoad, { once: true });
+    return () => {
+      window.removeEventListener("load", onLoad);
+      if (t) clearTimeout(t);
+    };
+  }, []);
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const el = root.current;
@@ -53,6 +77,13 @@ export default function CoupleFooter() {
         </div>
       </div>
 
+      <p className="relative mx-auto mt-14 max-w-6xl text-center text-xs text-white/75 md:text-left">
+        Designed and developed by{" "}
+        <a href="https://www.sarastralabs.com" target="_blank" rel="noopener noreferrer" className="inline-block py-3 font-semibold text-[#e4c47e] underline-offset-4 hover:underline">
+          Sarastra Labs
+        </a>
+      </p>
+
       {/* the couple: head above the footer edge, body inside it, on the right */}
       <div
         ref={couple}
@@ -61,6 +92,7 @@ export default function CoupleFooter() {
         <div className="couple-sway absolute inset-0">
           <Image
             src="/art/couple.webp"
+            unoptimized
             alt="Illustration of Vaishak and Nisha dancing"
             fill
             sizes="(min-width:768px) 44vw, 52vw"

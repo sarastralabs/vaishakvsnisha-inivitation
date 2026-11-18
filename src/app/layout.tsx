@@ -14,10 +14,22 @@ const sans = DM_Sans({ subsets: ["latin"], variable: "--font-dm" });
 const script = Great_Vibes({ subsets: ["latin"], weight: "400", variable: "--font-script" });
 
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vaishakvsnisha-inivitation.vercel.app";
+const title = "Vaishak & Nisha | Wedding Invitation";
+const description = "You are invited to celebrate the wedding of Vaishak and Nisha: Mehendi 27 November, Marriage 29 November, Reception 2 December 2026.";
+
 export const metadata: Metadata = {
-  title: "Vaishak & Nisha | Wedding Invitation",
-  description: "You are invited to celebrate the wedding of Vaishak and Nisha.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
   robots: { index: false, follow: false },
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    images: [{ url: "/video/reel-poster.jpg", width: 1280, height: 720, alt: "Vaishak and Nisha by the sea" }],
+  },
+  twitter: { card: "summary_large_image", title, description, images: ["/video/reel-poster.jpg"] },
 };
 
 export const viewport: Viewport = { themeColor: "#f3ece7" };

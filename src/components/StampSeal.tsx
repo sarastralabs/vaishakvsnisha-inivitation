@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { Seal } from "./Textures";
+import { Seal, type SealIcon } from "./Textures";
 
 /** A wax seal that stamps down when it scrolls into view. */
-export default function StampSeal({ icon, className = "" }: { icon?: "heart" | "rings" | "om" | "arch"; className?: string }) {
+export default function StampSeal({ icon, className = "" }: { icon?: SealIcon; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     const el = ref.current;

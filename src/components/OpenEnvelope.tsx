@@ -1,49 +1,68 @@
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
 import Countdown from "./Countdown";
-import { Seal } from "./Textures";
+import { Bloom, CREAM, GOLD, HeartRule, Lotus, MAROON, WaxSeal } from "./Blooms";
 import { invite } from "@/data/invite";
 
-/** Bell-shaped card outline: narrow rounded top, curved shoulders, straight sides. viewBox 400 x 300. */
-const CARD =
-  "M0 300 L0 170 C0 140 12 124 42 114 C92 98 122 88 138 62 C150 40 168 12 200 12 C232 12 250 40 262 62 C278 88 308 98 358 114 C388 124 400 140 400 170 L400 300 Z";
+/** Maroon bell-shaped back piece of the letter. viewBox 400 x 300. */
+const BELL =
+  "M0 300 L0 176 C0 146 12 130 42 120 C92 104 122 92 138 66 C150 44 168 14 200 14 C232 14 250 44 262 66 C278 92 308 104 358 120 C388 130 400 146 400 176 L400 300 Z";
+/** Cream card with notched corners. */
+const NOTCH = (x: number, y: number, w: number, h: number, r: number) =>
+  `M${x + r} ${y} H${x + w - r} A${r} ${r} 0 0 0 ${x + w} ${y + r} V${y + h - r} A${r} ${r} 0 0 0 ${x + w - r} ${y + h} H${x + r} A${r} ${r} 0 0 0 ${x} ${y + h - r} V${y + r} A${r} ${r} 0 0 0 ${x + r} ${y} Z`;
 
-/** The letter: cream card with a thin gold foil line that follows the shape. */
+/** The letter: maroon back with a lotus, a cream card on a gold edge, flowers in two corners. */
 function Letter({ children }: { children: React.ReactNode }) {
   const id = useId().replace(/:/g, "");
   return (
     <div className="relative h-full w-full">
-      <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full drop-shadow-[0_14px_26px_rgba(60,45,25,.3)]" aria-hidden>
+      <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full drop-shadow-[0_14px_26px_rgba(60,25,25,.32)]" aria-hidden>
         <defs>
-          <clipPath id={`${id}c`}>
-            <path d={CARD} />
-          </clipPath>
-          <filter id={`${id}n`} x="0" y="0" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5" />
-            <feColorMatrix values="0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .35  0 0 0 .22 0" />
-          </filter>
+          <linearGradient id={`${id}m`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#8e1a2c" />
+            <stop offset="1" stopColor="#6c1020" />
+          </linearGradient>
           <linearGradient id={`${id}g`} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0" stopColor="#b8913a" />
-            <stop offset=".35" stopColor="#f3dc93" />
-            <stop offset=".65" stopColor="#c9a54f" />
-            <stop offset="1" stopColor="#ecd07f" />
+            <stop offset=".4" stopColor="#f3dc93" />
+            <stop offset="1" stopColor="#c9a54f" />
           </linearGradient>
+          <filter id={`${id}n`} x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" />
+            <feColorMatrix values="0 0 0 0 .5  0 0 0 0 .42  0 0 0 0 .3  0 0 0 .16 0" />
+          </filter>
+          <clipPath id={`${id}c`}>
+            <path d={NOTCH(14, 92, 372, 196, 16)} />
+          </clipPath>
         </defs>
-        <path d={CARD} fill="#e9e1d1" />
-        <rect width="400" height="300" filter={`url(#${id}n)`} clipPath={`url(#${id}c)`} />
-        <path d={CARD} fill="none" stroke="#c9bfab" strokeWidth="1.2" />
-        <path d={CARD} fill="none" stroke={`url(#${id}g)`} strokeWidth="2" strokeLinecap="round" transform="translate(200 302) scale(.955 .955) translate(-200 -302)" />
+        {/* maroon back, edged in gold */}
+        <path d={BELL} fill={`url(#${id}m)`} />
+        <path d={BELL} fill="none" stroke={`url(#${id}g)`} strokeWidth="2.2" />
+        {/* gold paper under the card */}
+        <path d={NOTCH(10, 100, 380, 196, 16)} fill={`url(#${id}g)`} />
+        {/* the cream card */}
+        <path d={NOTCH(14, 92, 372, 196, 16)} fill={CREAM} />
+        <rect x="14" y="92" width="372" height="196" filter={`url(#${id}n)`} clipPath={`url(#${id}c)`} />
+        <path d={NOTCH(22, 100, 356, 180, 12)} fill="none" stroke={`url(#${id}g)`} strokeWidth="1.2" />
+        <path d={NOTCH(18, 96, 364, 188, 14)} fill="none" stroke={GOLD} strokeWidth=".6" opacity=".7" />
       </svg>
-      <div className="absolute inset-x-[9%] bottom-[7%] top-[26%] flex flex-col items-center justify-center text-center">{children}</div>
+      {/* lotus on the maroon crown */}
+      <Lotus className="absolute left-1/2 top-[11%] h-[9%] w-[16%] -translate-x-1/2" />
+      {/* flowers in two corners of the card */}
+      <Bloom className="pointer-events-none absolute left-[3%] top-[26%] w-[19%]" />
+      <Bloom className="pointer-events-none absolute bottom-[1%] right-[3%] w-[19%] -scale-100" />
+      <div className="absolute inset-x-[9%] bottom-[8%] top-[34%] flex flex-col items-center justify-center text-center">{children}</div>
     </div>
   );
 }
 
 type Stage = 0 | 1 | 2; // 0 closed, 1 opening and rising, 2 letter shown large
 
+const FLAP = "M4 20 Q4 4 20 4 H430 Q446 4 446 20 V62 C446 90 424 96 402 90 C360 80 326 108 292 140 C268 162 246 184 225 191 C204 184 182 162 158 140 C124 108 90 80 48 90 C26 96 4 90 4 62 Z";
+
 /**
- * Tap or scroll to open: the flap opens, the letter rises out, then slides forward and grows
- * into a large card holding the countdown, while the envelope fades back.
+ * Tap or scroll to open: the flap lifts, the letter rises, then slides forward and grows into a
+ * large card with the live countdown while the envelope fades back.
  */
 export default function OpenEnvelope() {
   const [stage, setStage] = useState<Stage>(0);
@@ -88,7 +107,7 @@ export default function OpenEnvelope() {
   }, []);
 
   const ease = "cubic-bezier(.2,.8,.2,1)";
-  const letterTransform = stage === 0 ? "translateY(16.5%) scale(.5)" : stage === 1 ? "translateY(-13%) scale(.5)" : "translateY(0%) scale(1)";
+  const letterTransform = stage === 0 ? "translateY(14%) scale(.5)" : stage === 1 ? "translateY(-13%) scale(.5)" : "translateY(0%) scale(1)";
   return (
     <div ref={wrap} className="mx-auto w-full max-w-[34rem]">
       <button
@@ -99,22 +118,49 @@ export default function OpenEnvelope() {
       >
         {/* the envelope */}
         <div
-          className="absolute inset-x-[18%] top-[38%] aspect-[3/2]"
+          className="absolute inset-x-[15%] top-[33%] aspect-[3/2]"
           style={{
             opacity: stage === 2 ? 0 : 1,
             transform: stage === 2 ? "translateY(10%) scale(.94)" : "none",
             transition: `opacity .9s ease ${stage === 2 ? ".25s" : "0s"}, transform 1s ${ease}`,
           }}
         >
+          {/* inside of the envelope: maroon, with a cream shell offset to the left and up */}
           <svg viewBox="0 0 450 300" className="absolute inset-0 h-full w-full drop-shadow-xl" aria-hidden>
-            <rect x="4" y="4" width="442" height="292" rx="14" fill="#d9ceb4" />
+            <rect x="14" y="10" width="432" height="286" rx="16" fill={MAROON} />
+            <rect x="4" y="4" width="432" height="286" rx="14" fill="#f5e9d0" />
+            <rect x="4" y="4" width="432" height="286" rx="14" fill="#7d1626" opacity=".0" />
           </svg>
+          {/* maroon interior shows when the flap is open */}
+          <svg viewBox="0 0 450 300" className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
+            <path d="M4 70 Q4 62 12 68 L225 196 L438 68 Q446 62 446 70 V4 H4Z" fill={MAROON} opacity={stage > 0 ? 1 : 0} style={{ transition: "opacity .4s ease .35s" }} />
+          </svg>
+
+          {/* front pocket, cream with gold folds */}
           <svg viewBox="0 0 450 300" className="pointer-events-none absolute inset-0 z-30 h-full w-full" aria-hidden>
-            <path d="M4 296 V70 Q4 62 12 68 L225 196 L438 68 Q446 62 446 70 V296Z" fill="#e6dcc7" stroke="#cdbf9f" strokeWidth="1.5" />
-            <path d="M4 296 L170 170 M446 296 L280 170" stroke="#d3c6a8" strokeWidth="1.4" fill="none" />
+            <defs>
+              <linearGradient id="pocket-g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#fbf3e1" />
+                <stop offset="1" stopColor="#f2e4c6" />
+              </linearGradient>
+            </defs>
+            <path d="M4 292 V70 Q4 62 12 68 L225 196 L432 68 Q436 64 436 70 V292 Q436 290 432 290 H8 Q4 290 4 286Z" fill="url(#pocket-g)" stroke="#e3d3ae" strokeWidth="1.2" />
+            <path d="M6 288 L168 174 M434 288 L282 174" stroke={GOLD} strokeWidth="1" fill="none" />
+            <path d="M12 276 H428" stroke={GOLD} strokeWidth=".6" opacity=".55" />
+            {/* faint leaf marks */}
+            <g stroke={GOLD} strokeWidth="1" fill="none" opacity=".35" strokeLinecap="round">
+              <path d="M64 262 C70 232 78 214 92 196" />
+              <path d="M70 244 C58 240 52 232 54 224 C64 226 70 234 70 244Z" />
+              <path d="M78 224 C90 218 100 220 104 228 C94 232 84 232 78 224Z" />
+              <path d="M386 262 C380 232 372 214 358 196" />
+              <path d="M380 244 C392 240 398 232 396 224 C386 226 380 234 380 244Z" />
+              <path d="M372 224 C360 218 350 220 346 228 C356 232 366 232 372 224Z" />
+            </g>
           </svg>
+
+          {/* flap */}
           <div
-            className="absolute inset-x-0 top-0 h-[58.7%] [transform-style:preserve-3d]"
+            className="absolute inset-x-0 top-0 h-[65%] [transform-style:preserve-3d]"
             style={{
               transformOrigin: "top",
               transform: stage > 0 ? "rotateX(180deg)" : "rotateX(0deg)",
@@ -122,17 +168,28 @@ export default function OpenEnvelope() {
               zIndex: stage > 0 ? 5 : 40,
             }}
           >
-            <svg viewBox="0 0 450 176" preserveAspectRatio="none" className="absolute inset-0 h-full w-full [backface-visibility:hidden]" aria-hidden>
-              <path d="M4 18 Q4 4 18 4 H432 Q446 4 446 18 L232 172 Q225 177 218 172Z" fill="#efe6d2" stroke="#cdbf9f" strokeWidth="1.5" />
-              <path d="M34 22 Q225 150 416 22" stroke="#c9a45c" strokeWidth="1.2" fill="none" opacity=".7" />
+            <svg viewBox="0 0 450 195" preserveAspectRatio="none" className="absolute inset-0 h-full w-full [backface-visibility:hidden]" aria-hidden>
+              <defs>
+                <linearGradient id="flap-g" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#fbf3e1" />
+                  <stop offset="1" stopColor="#f3e5c8" />
+                </linearGradient>
+              </defs>
+              <path d={FLAP} transform="translate(0 6)" fill={MAROON} />
+              <path d={FLAP} fill="url(#flap-g)" stroke="#e3d3ae" strokeWidth="1.2" />
+              <path d={FLAP} fill="none" stroke={GOLD} strokeWidth="1.3" transform="translate(225 4) scale(.94 .9) translate(-225 -4)" />
             </svg>
-            <svg viewBox="0 0 450 176" preserveAspectRatio="none" className="absolute inset-0 h-full w-full [backface-visibility:hidden] [transform:rotateX(180deg)]" aria-hidden>
-              <path d="M4 18 Q4 4 18 4 H432 Q446 4 446 18 L232 172 Q225 177 218 172Z" fill="#e2d7bd" stroke="#cdbf9f" strokeWidth="1.5" />
+            <svg viewBox="0 0 450 195" preserveAspectRatio="none" className="absolute inset-0 h-full w-full [backface-visibility:hidden] [transform:rotateX(180deg)]" aria-hidden>
+              <path d={FLAP} fill="#6c1020" />
+              <path d={FLAP} fill="none" stroke={GOLD} strokeWidth="1.3" transform="translate(225 4) scale(.94 .9) translate(-225 -4)" />
             </svg>
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 [backface-visibility:hidden]">
-              <Seal icon="rings" className="scale-110" />
-            </span>
+            <Lotus className="absolute left-1/2 top-[18%] h-[22%] w-[13%] -translate-x-1/2 [backface-visibility:hidden]" />
+            <WaxSeal className="absolute left-1/2 top-[88%] z-10 w-[17%] -translate-x-1/2 -translate-y-[58%] drop-shadow-[0_6px_8px_rgba(60,10,15,.35)] [backface-visibility:hidden]" />
           </div>
+
+          {/* flowers on two corners */}
+          <Bloom className="pointer-events-none absolute -left-[12%] -top-[22%] z-50 w-[40%]" />
+          <Bloom className="pointer-events-none absolute -bottom-[26%] -right-[10%] z-50 w-[36%] -scale-100" />
         </div>
 
         {/* the letter: rises out, then grows into a large card */}
@@ -146,18 +203,36 @@ export default function OpenEnvelope() {
           }}
         >
           <Letter>
-            <p className="text-[11px] font-semibold uppercase tracking-[.3em] text-[var(--gold)] md:text-xs">Save the date</p>
-            <p className="fd mt-1 text-xl md:text-3xl">{invite.dateLabel}</p>
-            <div className="mt-3 w-full md:mt-5">
-              <Countdown compact />
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[.28em] text-[#b88a2c] md:gap-3 md:text-sm">
+              <span aria-hidden className="text-[8px] md:text-[10px]">◆</span>
+              Save the date
+              <span aria-hidden className="text-[8px] md:text-[10px]">◆</span>
+            </p>
+            <p className="fd mt-1 text-lg text-[#2a1a18] sm:text-2xl md:mt-2 md:text-[1.9rem]">{invite.dateLabel}</p>
+            <div className="mt-2 w-full md:mt-4">
+              <Countdown card />
             </div>
-            <p className="script mt-2 text-2xl text-[var(--brush)] md:mt-4 md:text-4xl">
+            <HeartRule className="mt-2 h-3 w-40 md:mt-4 md:h-4 md:w-56" />
+            <p className="script mt-0.5 text-3xl leading-tight text-[#7d1626] sm:text-4xl md:mt-1 md:text-[3.2rem]">
               {invite.groom} &amp; {invite.bride}
             </p>
           </Letter>
         </div>
       </button>
-      <p className="mt-3 text-center text-xs uppercase tracking-[.3em] text-[var(--sea)]">{stage === 2 ? "Tap the card to close" : stage === 0 ? "Tap to open" : " "}</p>
+
+      {/* the hint */}
+      <div className="mt-4 flex flex-col items-center gap-2" aria-hidden>
+        <HeartRule className="h-3 w-44" />
+        <span className="inline-flex items-center gap-3 rounded-full border border-[#c9a54f] bg-gradient-to-b from-[#fbf3e1] to-[#f1e1bd] px-7 py-2.5 text-xs font-semibold uppercase tracking-[.3em] text-[#7d1626] shadow-sm">
+          {stage === 2 ? "Tap the card to close" : stage === 0 ? "Tap to open" : "    "}
+          {stage === 0 && (
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 11V5a1.5 1.5 0 0 1 3 0v5.5m0-1a1.5 1.5 0 0 1 3 0V12m0-1.2a1.5 1.5 0 0 1 3 0v3.7c0 4-2 6.5-6 6.5-3 0-4.5-1.5-6-4l-2-3a1.5 1.5 0 0 1 2.5-1.5L9 14" />
+              <path d="M6 4 L4.5 2.5 M3.5 7 H1.5 M12 2 V0.5" opacity=".7" />
+            </svg>
+          )}
+        </span>
+      </div>
     </div>
   );
 }

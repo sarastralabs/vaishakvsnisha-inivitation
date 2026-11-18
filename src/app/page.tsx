@@ -12,6 +12,8 @@ import AddToCalendar from "@/components/AddToCalendar";
 import StampSeal from "@/components/StampSeal";
 import CoupleFooter from "@/components/CoupleFooter";
 import CopyAddress from "@/components/CopyAddress";
+import DressIcon, { ColourDots } from "@/components/DressIcons";
+import { eventIcons } from "@/components/Textures";
 import { full, invite, type EventItem } from "@/data/invite";
 
 const Eyebrow = ({ children }: { children: React.ReactNode }) => (
@@ -178,11 +180,9 @@ export default function Page() {
                   <li key={e.name}>
                     <Reveal delay={i * 0.1} className="h-full">
                       <article className="flex h-full flex-col rounded-2xl border border-[var(--ink)]/12 bg-white/70 p-7 text-center">
-                        <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[var(--sage)]/15 text-[var(--sage)]" aria-hidden>
-                          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z" />
-                            <circle cx="12" cy="9.5" r="2.4" />
-                          </svg>
+                        <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[#c9a54f]/60 bg-[#f6ead0]" aria-hidden>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={eventIcons[e.icon as keyof typeof eventIcons] ?? "/icons/event-marriage.png"} alt="" className="h-9 w-9 object-contain" />
                         </span>
                         <h3 className="fd mt-4 text-3xl">{e.name}</h3>
                         <p className="mt-1 text-xs font-semibold uppercase tracking-[.16em] text-[var(--gold)]">
@@ -212,29 +212,36 @@ export default function Page() {
           <Gallery />
         </section>
 
-        {/* DRESS CODE: kept simple, one card per celebration */}
-        <section id="dress" className="px-5 py-24 md:py-32" aria-labelledby="dc-h">
-          <div className="mx-auto max-w-5xl">
+        {/* DRESS CODE: maroon band, cream cards with a double gold border */}
+        <section id="dress" className="relative overflow-hidden bg-[#7d1626] px-5 py-24 md:py-32" aria-labelledby="dc-h">
+          <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.12] [background:radial-gradient(60%_50%_at_50%_0%,#f3dc93,transparent_70%)]" />
+          <div className="relative mx-auto max-w-5xl">
             <Reveal className="text-center">
-              <Eyebrow>What to wear</Eyebrow>
-              <h2 id="dc-h" className="fd mt-3 text-4xl uppercase tracking-wide md:text-6xl">
+              <p className="text-xs font-semibold uppercase tracking-[.35em] text-[#e4c47e]">What to wear</p>
+              <h2 id="dc-h" className="fd mt-3 text-4xl uppercase tracking-wide text-[#fbf3e1] md:text-6xl">
                 Dress code
               </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-[var(--ink)]/75">{invite.dressIntro}</p>
+              <p className="mx-auto mt-5 max-w-2xl text-[#f3dfc4]/90">{invite.dressIntro}</p>
             </Reveal>
-            <ul className="mt-12 grid gap-5 md:grid-cols-3">
+            <ul className="mt-14 grid gap-6 md:grid-cols-3">
               {invite.dress.map((d, i) => (
                 <li key={d.event}>
-                  <Reveal delay={i * 0.1} className="h-full">
-                    <article className="flex h-full flex-col rounded-2xl border border-[var(--ink)]/12 bg-white/70 p-7 text-center">
-                      <h3 className="fd text-3xl">{d.event}</h3>
-                      <p className="mt-1 text-xs font-semibold uppercase tracking-[.25em] text-[var(--gold)]">{d.when}</p>
-                      <p className="mx-auto mt-4 rounded-full bg-[var(--sage)]/15 px-4 py-1.5 text-sm font-semibold text-[var(--sage)]">{d.rule}</p>
-                      <p className="mt-3 text-[var(--ink)]/75">{d.text}</p>
-                      <ul className="mt-auto flex justify-center gap-2 pt-6">
+                  <Reveal delay={i * 0.12} className="h-full">
+                    <article className="relative flex h-full flex-col items-center rounded-[1.4rem] bg-[#fbf3e1] px-6 pb-8 pt-9 text-center shadow-2xl shadow-black/25 ring-1 ring-[#c9a54f]/70 before:pointer-events-none before:absolute before:inset-2 before:rounded-[1.1rem] before:border before:border-[#c9a54f]/55">
+                      <span className="grid h-16 w-16 place-items-center rounded-full border border-[#c9a54f] bg-gradient-to-b from-[#fffaf0] to-[#f1e1bd] text-[#9b7420]">
+                        <DressIcon name={d.icon} className="h-9 w-9" />
+                      </span>
+                      <h3 className="fd mt-4 text-3xl text-[#7d1626] md:text-4xl">{d.event}</h3>
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-[.25em] text-[#b88a2c]">{d.when}</p>
+                      <p className="mt-4 rounded-full bg-[#eddcb8] px-4 py-1.5 text-sm font-semibold text-[#7d1626]">{d.rule}</p>
+                      <p className="mt-3 max-w-[16rem] text-[#3b2a26]/80">{d.text}</p>
+                      <ColourDots className="mt-4" />
+                      <ul className="mt-auto flex justify-center gap-2.5 pt-7">
                         {d.photos.map((ph) => (
-                          <li key={ph} className="relative h-32 w-16 overflow-hidden rounded-md bg-white shadow-md">
-                            <Image src={`/dress/${ph}.webp`} alt={`${d.event} outfit idea`} fill sizes="64px" className="object-cover object-top" loading="lazy" />
+                          <li key={ph} className="relative h-36 w-[4.5rem] overflow-hidden rounded-md bg-white p-1 shadow-md ring-1 ring-black/5 md:h-40 md:w-20">
+                            <div className="relative h-full w-full overflow-hidden rounded-[3px]">
+                              <Image src={`/dress/${ph}.webp`} alt={`${d.event} outfit idea`} fill sizes="80px" className="object-cover object-top" loading="lazy" />
+                            </div>
                           </li>
                         ))}
                       </ul>

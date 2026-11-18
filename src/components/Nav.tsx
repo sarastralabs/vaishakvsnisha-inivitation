@@ -10,7 +10,7 @@ const links = [
   ["FAQ", "faq"],
 ];
 
-/** Floating white pill with monogram and a menu, like the reference. */
+/** White pill with monogram and a menu. Sits on the landing section and scrolls away with it, like the reference. */
 export default function Nav() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function Nav() {
     return () => window.removeEventListener("keydown", k);
   }, []);
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5">
+    <header className="absolute inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5">
       <nav aria-label="Main" className="mx-auto flex max-w-5xl items-center justify-between rounded-full bg-white/95 px-5 py-3 shadow-lg shadow-black/5 backdrop-blur">
         <a href="#top" className="fd inline-flex h-10 items-center px-1 text-2xl tracking-wide" aria-label="Back to top">
           V&amp;N
