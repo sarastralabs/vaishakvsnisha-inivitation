@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Smooth from "@/components/Smooth";
-import Nav from "@/components/Nav";
 import Reveal from "@/components/Reveal";
 import Parallax from "@/components/Parallax";
 import OpenEnvelope from "@/components/OpenEnvelope";
@@ -31,7 +30,6 @@ const mapHref = (e: EventItem) =>
 export default function Page() {
   return (
     <Smooth>
-      <Nav />
       <main id="top" className="overflow-x-clip">
         {/* HERO: names rise in; film drifts as you scroll away */}
         <Hero />
