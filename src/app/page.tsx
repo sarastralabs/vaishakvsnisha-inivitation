@@ -262,7 +262,7 @@ export default function Page() {
                               {g.photos.map((ph) => (
                                 <li key={ph} className="relative h-36 w-[4.5rem] overflow-hidden rounded-md bg-white p-1 shadow-md ring-1 ring-black/5 md:h-40 md:w-20">
                                   <div className="relative h-full w-full overflow-hidden rounded-[3px]">
-                                    <Image src={`/dress/${ph}.webp`} alt={`${d.event} outfit idea for ${who.toLowerCase()}`} fill sizes="80px" className="object-cover object-top" loading="lazy" />
+                                    <Image src={`/dress/${ph}.webp`} alt={`${d.event} outfit idea for ${who.toLowerCase()}`} fill sizes="80px" unoptimized className="object-cover object-top" loading="eager" />
                                   </div>
                                 </li>
                               ))}
