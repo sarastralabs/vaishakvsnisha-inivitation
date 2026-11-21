@@ -252,17 +252,24 @@ export default function Page() {
                       <h3 className="fd mt-4 text-3xl text-[#7d1626] md:text-4xl">{d.event}</h3>
                       <p className="mt-1 text-xs font-semibold uppercase tracking-[.25em] text-[#b88a2c]">{d.when}</p>
                       <p className="mt-4 rounded-full bg-[#eddcb8] px-4 py-1.5 text-sm font-semibold text-[#7d1626]">{d.rule}</p>
-                      <p className="mt-3 max-w-[16rem] text-[#3b2a26]/80">{d.text}</p>
                       <ColourDots className="mt-4" colours={d.swatches} label={d.swatches.length ? d.rule : undefined} />
-                      <ul className="mt-auto flex justify-center gap-2.5 pt-7">
-                        {d.photos.map((ph) => (
-                          <li key={ph} className="relative h-36 w-[4.5rem] overflow-hidden rounded-md bg-white p-1 shadow-md ring-1 ring-black/5 md:h-40 md:w-20">
-                            <div className="relative h-full w-full overflow-hidden rounded-[3px]">
-                              <Image src={`/dress/${ph}.webp`} alt={`${d.event} outfit idea`} fill sizes="80px" className="object-cover object-top" loading="lazy" />
-                            </div>
-                          </li>
+                      <div className="mt-6 grid w-full gap-6 border-t border-[#c9a54f]/40 pt-6 text-left">
+                        {([["Men", d.men], ["Ladies", d.ladies]] as const).map(([who, g]) => (
+                          <div key={who} className="text-center">
+                            <p className="text-xs font-semibold uppercase tracking-[.25em] text-[#b88a2c]">{who}</p>
+                            <p className="mx-auto mt-1 max-w-[18rem] text-sm text-[#3b2a26]/80">{g.text}</p>
+                            <ul className="mt-3 flex justify-center gap-2.5">
+                              {g.photos.map((ph) => (
+                                <li key={ph} className="relative h-36 w-[4.5rem] overflow-hidden rounded-md bg-white p-1 shadow-md ring-1 ring-black/5 md:h-40 md:w-20">
+                                  <div className="relative h-full w-full overflow-hidden rounded-[3px]">
+                                    <Image src={`/dress/${ph}.webp`} alt={`${d.event} outfit idea for ${who.toLowerCase()}`} fill sizes="80px" className="object-cover object-top" loading="lazy" />
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </article>
                   </Reveal>
                 </li>
