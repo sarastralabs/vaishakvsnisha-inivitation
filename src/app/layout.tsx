@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans, Great_Vibes } from "next/font/google";
 import "./globals.css";
 import { TextureDefs } from "@/components/Textures";
+import { Analytics } from "@vercel/analytics/next";
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" as="image" href="/video/film2-poster.jpg" media="(min-width: 768px)" fetchPriority="high" />
         <TextureDefs />
         {children}
+        <Analytics />
       </body>
     </html>
   );
