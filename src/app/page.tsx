@@ -182,8 +182,8 @@ export default function Page() {
                 Venues and directions
               </h2>
             </Reveal>
-            <ul className="mt-12 grid gap-5 md:grid-cols-3">
-              {invite.events.map((e, i) => {
+            <ul className="mt-12 grid gap-5 md:grid-cols-2">
+              {invite.events.filter((e) => e.venue).map((e, i) => {
                 const href = mapHref(e);
                 const address = [e.venue, e.place].filter(Boolean).join(", ");
                 return (
@@ -191,8 +191,16 @@ export default function Page() {
                     <Reveal delay={i * 0.1} className="h-full">
                       <article className="flex h-full flex-col rounded-2xl border border-[var(--ink)]/12 bg-white/70 p-7 text-center">
                         <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[#c9a54f]/60 bg-[#f6ead0]" aria-hidden>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={eventIcons[e.icon as keyof typeof eventIcons] ?? "/icons/event-marriage.png"} alt="" className="h-9 w-9 object-contain" />
+                          {e.icon === "haldi" ? (
+                            <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#b88a2c]" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M4 11 H20 C20 16.5 16.5 20 12 20 C7.5 20 4 16.5 4 11Z" />
+                              <path d="M8 11 C8 8 10 7 12 7 C14 7 16 8 16 11" />
+                              <path d="M12 3 V5 M8.5 4 L9.5 5.5 M15.5 4 L14.5 5.5" />
+                            </svg>
+                          ) : (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={eventIcons[e.icon as keyof typeof eventIcons] ?? "/icons/event-marriage.png"} alt="" className="h-9 w-9 object-contain" />
+                          )}
                         </span>
                         <h3 className="fd mt-4 text-3xl">{e.name}</h3>
                         <p className="mt-1 text-xs font-semibold uppercase tracking-[.16em] text-[var(--gold)]">
@@ -233,7 +241,7 @@ export default function Page() {
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-[#f3dfc4]/90">{invite.dressIntro}</p>
             </Reveal>
-            <ul className="mt-14 grid gap-6 md:grid-cols-3">
+            <ul className="mt-14 grid gap-6 md:grid-cols-2">
               {invite.dress.map((d, i) => (
                 <li key={d.event}>
                   <Reveal delay={i * 0.12} className="h-full">
@@ -245,7 +253,7 @@ export default function Page() {
                       <p className="mt-1 text-xs font-semibold uppercase tracking-[.25em] text-[#b88a2c]">{d.when}</p>
                       <p className="mt-4 rounded-full bg-[#eddcb8] px-4 py-1.5 text-sm font-semibold text-[#7d1626]">{d.rule}</p>
                       <p className="mt-3 max-w-[16rem] text-[#3b2a26]/80">{d.text}</p>
-                      <ColourDots className="mt-4" />
+                      <ColourDots className="mt-4" colours={d.swatches} label={d.swatches.length ? d.rule : undefined} />
                       <ul className="mt-auto flex justify-center gap-2.5 pt-7">
                         {d.photos.map((ph) => (
                           <li key={ph} className="relative h-36 w-[4.5rem] overflow-hidden rounded-md bg-white p-1 shadow-md ring-1 ring-black/5 md:h-40 md:w-20">

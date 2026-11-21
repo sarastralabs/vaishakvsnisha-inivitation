@@ -49,10 +49,10 @@ export default function DressIcon({ name, className = "" }: { name: DressIconNam
 }
 
 /** A row of festive colour dots that says "any colour". */
-export function ColourDots({ className = "" }: { className?: string }) {
-  const dots = ["#7d1626", "#c9a54f", "#3f6a4a", "#2c4a7a", "#b04a6a", "#e2b93b"];
+export function ColourDots({ className = "", colours, label = "Any colour" }: { className?: string; colours?: string[]; label?: string }) {
+  const dots = colours?.length ? colours : ["#7d1626", "#c9a54f", "#3f6a4a", "#2c4a7a", "#b04a6a", "#e2b93b"];
   return (
-    <ul className={`flex items-center justify-center gap-1.5 ${className}`} aria-label="Any colour">
+    <ul className={`flex items-center justify-center gap-1.5 ${className}`} aria-label={label}>
       {dots.map((c) => (
         <li key={c} className="h-4 w-4 rounded-full border border-black/10 shadow-inner" style={{ background: c }} />
       ))}

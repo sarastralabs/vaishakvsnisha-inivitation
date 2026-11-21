@@ -15,7 +15,7 @@ const script = Great_Vibes({ subsets: ["latin"], weight: "400", variable: "--fon
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vaishakvsnisha-inivitation.vercel.app";
 const title = "Vaishak & Nisha | Wedding Invitation";
-const description = "You are invited to celebrate the wedding of Vaishak and Nisha: Mehendi 27 November, Marriage 29 November, Reception 2 December 2026.";
+const description = "You are invited to celebrate the wedding of Vaishak and Nisha: Haldi and Mehendi 27 November, Marriage 29 November, Reception 2 December 2026.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -14,7 +14,7 @@ export type EventItem = {
   /** Short extra line shown under the time. */
   note?: string;
   photo: string;
-  icon: "heart" | "rings" | "om" | "arch" | "mehendi" | "kalash" | "cheers";
+  icon: "heart" | "rings" | "om" | "arch" | "haldi" | "mehendi" | "kalash" | "cheers";
 };
 
 export const invite = {
@@ -62,6 +62,19 @@ export const invite = {
   },
   events: [
     {
+      name: "Haldi",
+      day: "Friday",
+      date: "27 November 2026",
+      time: "2:00 PM",
+      venue: "Hema Nivasa",
+      place: "Uliyathadka, Salethuru",
+      note: "Dress code: yellow",
+      mapUrl: "https://maps.app.goo.gl/8gFkqABzw3m6SUuj6",
+      start: "2026-11-27T14:00:00+05:30",
+      photo: "haldi-decor",
+      icon: "haldi",
+    },
+    {
       name: "Mehendi",
       day: "Friday",
       date: "27 November 2026",
@@ -71,7 +84,7 @@ export const invite = {
       note: "Satyanarayana Pooja and Mehendi ceremony at our home",
       mapUrl: "https://maps.app.goo.gl/8gFkqABzw3m6SUuj6",
       start: "2026-11-27T18:00:00+05:30",
-      photo: "post-b-10",
+      photo: "mehendi-decor",
       icon: "mehendi",
     },
     {
@@ -101,15 +114,24 @@ export const invite = {
     },
   ] as EventItem[],
   // From "Dress code for Vaishak-Nisha wedding.pdf"
-  dressIntro: "Ladies: any traditional or western wear, in any colour, for the Mehendi, Marriage and Reception.",
+  dressIntro: "Ladies: any traditional or western wear, in any colour, for the Mehendi, Marriage and Reception. Yellow for the Haldi.",
   dress: [
+    {
+      event: "Haldi",
+      icon: "kurta" as const,
+      when: "27 November · 2:00 PM",
+      rule: "Yellow",
+      text: "Please wear yellow for the Haldi ceremony.",
+      swatches: ["#f5c518", "#e8a800", "#ffd84d"],
+      photos: ["haldi-1", "haldi-2"],
+    },
     {
       event: "Mehendi",
       icon: "kurta" as const,
       when: "27 November · 6:00 PM",
       rule: "Kurta, any colour",
       text: "Please wear a kurta in the style shown, in any colour.",
-      swatches: [],
+      swatches: [] as string[],
       photos: ["mehendi-1"],
     },
     {
@@ -118,7 +140,7 @@ export const invite = {
       when: "29 November",
       rule: "Traditional, any colour",
       text: "Any traditional outfit in any colour. A few ideas are shown.",
-      swatches: [],
+      swatches: [] as string[],
       photos: ["marriage-1", "marriage-2", "marriage-3"],
     },
     {
@@ -127,11 +149,12 @@ export const invite = {
       when: "2 December",
       rule: "Blazer, any colour",
       text: "A blazer in any colour. Two examples are shown.",
-      swatches: [],
+      swatches: [] as string[],
       photos: ["reception-1", "reception-2"],
     },
   ],
   faq: [
+    { q: "When is the Haldi?", a: "Friday 27 November at 2:00 PM. The dress code is yellow. It is held at Hema Nivasa, Uliyathadka, Salethuru, the same place as the Mehendi." },
     { q: "When and where is the Mehendi?", a: "Friday 27 November at 6:00 PM, at Hema Nivasa, Uliyathadka, Salethuru. It begins with the Satyanarayana Pooja at the family home." },
     { q: "Where is the marriage?", a: "Mahalakshmi Sabhabhavana, Uchila, Udupi, on Sunday 29 November at 12:05 PM (Abhijith Lagnam)." },
     { q: "Where is the reception?", a: "Bantawalada Bantara Bhavana, Brahmarakotlu, Thumbe, on Wednesday 2 December at 11:30 AM." },
